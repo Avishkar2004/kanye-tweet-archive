@@ -1,0 +1,23 @@
+{
+  "name": "tweet-log",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Unofficial fan archive of Kanye West's posts on X. Static site built with Vite and Tailwind CSS.",
+  "type": "module",
+  "scripts": {
+    "start": "vite",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "import": "node scripts/import-archive.mjs",
+    "test": "node --test scripts/import-archive.test.mjs"
+  },
+  "engines": {
+    "node": "^20.19.0 || >=22.12.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "tailwindcss": "^4.3.3",
+    "vite": "^8.3.5"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "_about": "Keyword rules for automatic topic tags. Each key is a tag; a post gets the tag if it contains any listed word or phrase (case-insensitive, whole words, optional plural s). Keys starting with _ are ignored. Edit freely, then re-run the import with --retag.",
+  "music": ["album", "song", "track", "studio", "beat", "producer", "verse", "tour", "concert", "listening party", "music", "rap", "hip hop", "mixtape", "lyric", "choir", "grammy"],
+  "fashion": ["fashion", "runway", "collection", "clothing", "apparel", "sneaker", "shoe", "fabric", "silhouette", "fashion week", "menswear", "womenswear"],
+  "design": ["design", "architecture", "architect", "furniture", "interior", "materials", "concrete", "minimal", "prototype"],
+  "faith": ["god", "jesus", "christ", "church", "pray", "prayer", "faith", "gospel", "sunday service", "worship", "blessed"],
+  "business": ["company", "business", "deal", "contract", "ownership", "investor", "equity", "billion", "brand", "partnership", "retail"],
+  "politics": ["president", "vote", "voting", "election", "campaign", "policy", "government", "congress", "senate"],
+  "personal": ["family", "kids", "daughter", "son", "wife", "husband", "mom", "mother", "father", "dad", "friend", "birthday"]
+}

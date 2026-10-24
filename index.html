@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tweet Log — search Kanye West’s posts</title>
+  <meta name="description" content="A searchable, text-only fan archive of Kanye West’s posts on X, with a timeline and stats. Unofficial; not affiliated with Kanye West or X.">
+  <meta name="theme-color" content="#ffffff">
+  <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.dataset.theme='dark'}catch(e){}</script>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="stylesheet" href="/src/styles/style.css">
+  <script type="module" src="/src/main.js"></script>
+</head>
+<body>
+  <a class="absolute left-4 -top-16 z-100 border border-line bg-page px-3.5 py-2.5 text-[13px] text-ink no-underline focus:top-4" href="#main" data-skip>Skip to content</a>
+  <section id="data-notice" aria-label="Data notice" hidden></section>
+  <!-- Filled by src/main.js from the templates below. -->
+  <main id="main"></main>
+  <noscript><p class="mt-[20vh] text-[14px]">This archive needs JavaScript to search and show posts.</p></noscript>
+
+  <template id="page-search" data-title="Tweet Log — search Kanye West’s posts" data-main-class="pb-6">
+    <h1 class="sr-only">Search Kanye West’s posts</h1>
+
+    <div class="mt-[20vh]" role="search" aria-label="Posts">
+      <div class="flex h-12 items-stretch">
+        <button id="filter-toggle" class="relative grid w-12 shrink-0 cursor-pointer place-items-center border border-line bg-page text-text transition-colors duration-[120ms] hover:bg-wash hover:text-ink focus-visible:-outline-offset-1 disabled:cursor-default disabled:opacity-50 aria-expanded:bg-wash aria-expanded:text-ink data-active:after:absolute data-active:after:top-[9px] data-active:after:right-[9px] data-active:after:size-[5px] data-active:after:rounded-[50%] data-active:after:bg-current forced-colors:data-active:after:bg-[CanvasText] forced-colors:data-active:after:forced-color-adjust-none" type="button" aria-expanded="false" aria-controls="filters" aria-label="Filters">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true" focusable="false">
+            <path d="M1 6.5h3.5M9.5 6.5H19M1 13.5h9.5M15.5 13.5H19"/>
+            <circle cx="7" cy="6.5" r="2.5"/>
+            <circle cx="13" cy="13.5" r="2.5"/>
+          </svg>
+        </button>
+        <label for="q" class="sr-only">Search posts</label>
+        <input id="q" class="min-w-0 flex-1 appearance-none rounded-none border border-l-0 border-line bg-page p-2.5 text-base text-ink focus-visible:-outline-offset-1 disabled:opacity-50" type="search" placeholder="search ye tweets" autocomplete="off" autocapitalize="off" spellcheck="false" aria-keyshortcuts="/" aria-controls="results">
+      </div>
+
+      <div id="filters" class="mt-3.5 border-b border-rule-soft pb-4" role="group" aria-label="Filters" hidden>
+        <div class="grid grid-cols-2 gap-x-4 gap-y-3 sm:flex sm:flex-wrap sm:gap-x-5">
+          <label class="grid gap-1">
+            <span class="text-micro text-meta">year</span>
+            <select id="year" class="h-9 rounded-none border border-line bg-page px-2.5 text-[13px] leading-[normal] text-ink w-full sm:min-w-32"><option value="">all years</option></select>
+          </label>
+          <label class="grid gap-1">
+            <span class="text-micro text-meta">sort</span>
+            <select id="sort" class="h-9 rounded-none border border-line bg-page px-2.5 text-[13px] leading-[normal] text-ink w-full sm:min-w-32">
+              <option value="newest">newest first</option>
+              <option value="oldest">oldest first</option>
+              <option value="engaged">most engaged</option>
+            </select>
+          </label>
+          <label class="grid gap-1">
+            <span class="text-micro text-meta">from</span>
+            <input id="from" class="h-9 rounded-none border border-line bg-page px-2.5 text-[13px] leading-[normal] text-ink w-full" type="date">
+          </label>
+          <label class="grid gap-1">
+            <span class="text-micro text-meta">to</span>
+            <input id="to" class="h-9 rounded-none border border-line bg-page px-2.5 text-[13px] leading-[normal] text-ink w-full" type="date">
+          </label>
+        </div>
+        <div id="topics" class="mt-4 flex flex-wrap items-baseline gap-x-3.5 gap-y-1.5 px-0.5 text-caption" role="group" aria-labelledby="topics-label">
+          <span id="topics-label" class="select-none text-micro text-meta">topic</span>
+        </div>
+      </div>
+    </div>
+
+    <nav id="try" class="mt-3.5 flex flex-wrap items-baseline gap-x-3.5 gap-y-1.5 px-0.5 text-caption" aria-label="Suggested searches" hidden>
+      <span class="select-none text-micro text-faint">try</span>
+    </nav>
+
+    <div id="meta-row" class="mt-3.5 flex flex-wrap items-baseline gap-x-5 gap-y-1">
+      <p id="meta" class="m-0 min-h-[1.4em] text-caption text-meta" role="status"><span id="meta-count">Loading…</span><span id="meta-time" aria-hidden="true"></span></p>
+      <button id="clear" class="group -mx-1.5 -my-2.5 inline-grid cursor-pointer px-1.5 py-2.5 text-caption text-text no-underline transition-[color,transform] duration-150 ease-snap hover:text-ink active:scale-[0.97] aria-pressed:text-ink focus-visible:text-ink focus-visible:-outline-offset-2" type="button" hidden><span class="whitespace-nowrap underline decoration-underline underline-offset-3 group-hover:decoration-underline-hover group-focus-visible:decoration-underline-hover group-aria-pressed:decoration-underline-hover group-aria-pressed:decoration-2 forced-colors:group-aria-pressed:decoration-[Highlight]">Clear filters</span></button>
+    </div>
+    <p id="no-results" class="m-0 mt-1 text-caption text-meta" hidden></p>
+
+    <noscript><p class="mt-5 text-caption text-meta">This page needs JavaScript to search the archive.</p></noscript>
+    <div id="results" class="mt-5"></div>
+    <div class="mt-8"><button id="more" class="inline-flex h-12 cursor-pointer items-center justify-center gap-2 rounded-none border border-line bg-page px-[18px] leading-none text-ink transition-[background-color,transform] duration-150 ease-snap hover:bg-wash active:scale-[0.98] disabled:cursor-default disabled:opacity-50" type="button" hidden>Show 50 more</button></div>
+  </template>
+
+  <template id="page-timeline" data-title="Tweets by year — Tweet Log" data-main-class="w-full max-w-sub pt-[5vh] pb-8">
+    <nav class="m-0 text-[14px] text-text" aria-label="Breadcrumb">
+      <a class="inline-block py-1 no-underline hover:underline hover:decoration-current" href="#/">← search</a><span class="px-2 text-faint" aria-hidden="true">/</span><span class="text-ink" aria-current="page">timeline</span>
+    </nav>
+    <h1 class="mt-5 mb-1 text-[24px] leading-[1.3] font-medium text-ink">Tweets by year</h1>
+    <p id="intro" class="m-0 max-w-[600px] text-[13px] leading-normal text-meta">Kanye West’s archived posts on X, year by year and month by month. Months and times are UTC.</p>
+    <nav id="year-jump" class="mt-4" aria-label="Jump to year" hidden></nav>
+    <noscript><p class="mt-4 mb-0 border border-rule px-3.5 py-2.5 text-[13px]">This page needs JavaScript to load the archive.</p></noscript>
+    <div id="timeline" class="mt-6"></div>
+  </template>
+
+  <template id="page-stats" data-title="Stats — Tweet Log" data-main-class="w-full max-w-sub pt-[5vh] pb-8">
+    <nav class="m-0 text-[14px] text-text" aria-label="Breadcrumb">
+      <a class="inline-block py-1 no-underline hover:underline hover:decoration-current" href="#/">← search</a><span class="px-2 text-faint" aria-hidden="true">/</span><span class="text-ink" aria-current="page">stats</span>
+    </nav>
+    <h1 class="mt-5 mb-1 text-[24px] leading-[1.3] font-medium text-ink">Stats</h1>
+    <p class="m-0 max-w-[600px] text-[13px] leading-normal text-meta text-pretty"><span id="stats-range">How often, when and with which words.</span> All times are UTC.</p>
+    <noscript><p class="mt-4 max-w-[600px] text-[13px] leading-normal text-meta">This page needs JavaScript to load the archive.</p></noscript>
+
+    <div id="stats">
+      <div class="mt-6">
+        <label for="scope" class="block text-micro uppercase text-meta">Year</label>
+        <select id="scope" class="mt-1 h-9 w-40 rounded-none border border-line bg-page px-2.5 text-[13px] leading-[normal] text-ink"><option value="">All years</option></select>
+      </div>
+
+      <dl id="kpis" class="mt-8 grid grid-cols-2 gap-y-6 sm:grid-cols-4" aria-label="Headline numbers"></dl>
+
+      <section aria-labelledby="volume-h">
+        <h2 id="volume-h" class="mt-12 mb-3 text-[13px] leading-[1.4] font-normal tracking-[0.04em] text-meta uppercase">Posts per month</h2>
+        <p id="volume-sub" class="-mt-1 mb-4 text-caption text-meta">Each point is one month.</p>
+        <div id="volume-chart"></div>
+        <p id="volume-live" class="sr-only" aria-live="polite"></p>
+        <details class="group/data mt-2.5">
+          <summary class="group/sum inline-flex min-h-7 cursor-pointer list-none items-center text-caption text-text transition-[color] duration-120 ease-[ease] hover:text-ink [&::-webkit-details-marker]:hidden"><span class="underline decoration-underline underline-offset-3 group-hover/sum:decoration-underline-hover group-open/data:hidden">show data table</span><span class="underline decoration-underline underline-offset-3 group-hover/sum:decoration-underline-hover group-not-open/data:hidden">hide data table</span></summary>
+          <div id="volume-table" class="mt-1.5 max-h-88 max-w-md overflow-auto border-t border-t-rule-soft [&_td]:text-text [&_td]:tabular-nums [&_thead_th]:sticky [&_thead_th]:top-0 [&_thead_th]:bg-page" tabindex="0" role="region" aria-label="Posts per month, data table"></div>
+        </details>
+      </section>
+
+      <div class="grid md:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] md:gap-x-10">
+        <section aria-labelledby="hours-h">
+          <h2 id="hours-h" class="mt-12 mb-3 text-[13px] leading-[1.4] font-normal tracking-[0.04em] text-meta uppercase">Posts by hour (UTC)</h2>
+          <p class="-mt-1 mb-4 text-caption text-meta">Hour of day the post went up.</p>
+          <div id="hours" class="relative pl-9" role="group" aria-label="Posts by hour of day, UTC. Use the arrow keys to move between hours."></div>
+          <details class="group/data mt-2.5">
+            <summary class="group/sum inline-flex min-h-7 cursor-pointer list-none items-center text-caption text-text transition-[color] duration-120 ease-[ease] hover:text-ink [&::-webkit-details-marker]:hidden"><span class="underline decoration-underline underline-offset-3 group-hover/sum:decoration-underline-hover group-open/data:hidden">show data table</span><span class="underline decoration-underline underline-offset-3 group-hover/sum:decoration-underline-hover group-not-open/data:hidden">hide data table</span></summary>
+            <div id="hours-table" class="mt-1.5 max-h-88 max-w-md overflow-auto border-t border-t-rule-soft [&_td]:text-text [&_td]:tabular-nums [&_thead_th]:sticky [&_thead_th]:top-0 [&_thead_th]:bg-page" tabindex="0" role="region" aria-label="Posts by hour, data table"></div>
+          </details>
+        </section>
+
+        <section aria-labelledby="weekdays-h">
+          <h2 id="weekdays-h" class="mt-12 mb-3 text-[13px] leading-[1.4] font-normal tracking-[0.04em] text-meta uppercase">Posts by weekday (UTC)</h2>
+          <p class="-mt-1 mb-4 text-caption text-meta">Monday first.</p>
+          <div id="weekdays" class="relative pl-9" role="group" aria-label="Posts by weekday, UTC. Use the arrow keys to move between days."></div>
+          <details class="group/data mt-2.5">
+            <summary class="group/sum inline-flex min-h-7 cursor-pointer list-none items-center text-caption text-text transition-[color] duration-120 ease-[ease] hover:text-ink [&::-webkit-details-marker]:hidden"><span class="underline decoration-underline underline-offset-3 group-hover/sum:decoration-underline-hover group-open/data:hidden">show data table</span><span class="underline decoration-underline underline-offset-3 group-hover/sum:decoration-underline-hover group-not-open/data:hidden">hide data table</span></summary>
+            <div id="weekdays-table" class="mt-1.5 max-h-88 max-w-md overflow-auto border-t border-t-rule-soft [&_td]:text-text [&_td]:tabular-nums [&_thead_th]:sticky [&_thead_th]:top-0 [&_thead_th]:bg-page"></div>
+          </details>
+        </section>
+      </div>
+
+      <section aria-labelledby="words-h">
+        <h2 id="words-h" class="mt-12 mb-3 text-[13px] leading-[1.4] font-normal tracking-[0.04em] text-meta uppercase">Most-used words</h2>
+        <p class="-mt-1 mb-4 text-caption text-meta">Top 20. Common English words, links and @mentions are left out.</p>
+        <ol id="words" class="m-0 list-none border-t border-t-rule-soft p-0"></ol>
+      </section>
+    </div>
+  </template>
+
+  <template id="page-random" data-title="Random post — Tweet Log" data-main-class="w-full max-w-170 pt-[5vh] pb-8">
+    <nav class="m-0 text-[14px] text-text" aria-label="Breadcrumb">
+      <a class="inline-block py-1 no-underline hover:underline hover:decoration-current" href="#/">← search</a><span class="px-2 text-faint" aria-hidden="true">/</span><span id="crumb" class="text-ink" aria-current="page">random</span>
+    </nav>
+    <h1 id="title" class="mt-5 mb-1 text-[24px] leading-[1.3] font-medium text-ink focus:outline-none" tabindex="-1">Random post</h1>
+    <p id="miss" class="mt-2 text-caption text-meta" hidden>That link doesn’t match a post in this archive, so here is a random one.</p>
+
+    <div class="mt-6 flex flex-wrap items-end gap-3">
+      <button id="shuffle" class="inline-flex h-12 cursor-pointer items-center justify-center gap-2 rounded-none border border-line bg-page px-[18px] leading-none text-ink transition-[background-color,transform] duration-150 ease-snap hover:bg-wash active:scale-[0.98] disabled:cursor-default disabled:opacity-50" type="button">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7h3.5c2 0 3.2.9 4.3 2.6l2.4 4.8c1.1 1.7 2.3 2.6 4.3 2.6H21M17.5 14l3.5 3-3.5 3M3 17h3.5c1.4 0 2.4-.4 3.2-1.2M13.3 8.2c.8-.8 1.8-1.2 3.2-1.2H21M17.5 4l3.5 3-3.5 3"/></svg>
+        <span>shuffle</span>
+      </button>
+      <div id="topic-field" class="flex min-w-0 flex-[1_1_12rem] flex-col gap-1 sm:flex-none">
+        <label for="topic" class="text-micro uppercase text-meta">Topic</label>
+        <select id="topic" class="h-12 w-full rounded-none border border-line bg-page px-2.5 leading-[normal] text-ink sm:w-56"><option value="">Any topic</option></select>
+      </div>
+    </div>
+
+    <noscript><p class="mt-4 mb-0 border border-rule px-3.5 py-2.5 text-[13px]">This page needs JavaScript to load the archive.</p></noscript>
+    <div id="stage" aria-live="polite"></div>
+    <div id="note" class="text-caption text-meta" hidden></div>
+
+    <section id="month" class="mt-10 border-t border-rule-soft" aria-labelledby="month-h" hidden>
+      <h2 id="month-h" class="mt-8 mb-3 text-[13px] leading-[1.4] font-normal tracking-[0.04em] text-meta uppercase">More from this month</h2>
+      <ol id="month-list" class="m-0 list-none p-0"></ol>
+      <p class="mt-4 text-caption"><a id="month-all" href="#/"></a></p>
+    </section>
+  </template>
+
+  <template id="page-about" data-title="About — Tweet Log" data-main-class="w-full max-w-sub pt-[5vh] pb-8">
+    <nav class="m-0 text-[14px] text-text" aria-label="Breadcrumb">
+      <a class="inline-block py-1 no-underline hover:underline hover:decoration-current" href="#/">← search</a><span class="px-2 text-faint" aria-hidden="true">/</span><span class="text-ink" aria-current="page">about</span>
+    </nav>
+    <h1 class="mt-5 mb-1 text-[24px] leading-[1.3] font-medium text-ink">About</h1>
+
+    <div class="max-w-[640px] text-[16px] leading-[1.8] text-text">
+      <p class="mt-6 border-l-2 border-ink py-1 pl-[18px] text-ink">Unofficial fan project. Not affiliated with or endorsed by Kanye West or X.</p>
+
+      <h2 class="mt-10 mb-3 text-[13px] leading-[1.4] font-normal tracking-[0.04em] text-meta uppercase">What this is</h2>
+      <p class="mb-4">Tweet Log is a fan-made, text-only archive of Kanye West’s public posts on X (formerly Twitter). You can search it, filter it by date and topic, browse it as a timeline, pull a random post, and see simple statistics about when and how often posts were made.</p>
+      <p class="mb-4">Layout inspired by <a href="https://yecombinator.com">yecombinator.com</a>.</p>
+
+      <h2 class="mt-10 mb-3 text-[13px] leading-[1.4] font-normal tracking-[0.04em] text-meta uppercase">How posts are shown</h2>
+      <ul class="mb-4 list-disc pl-5 marker:text-faint [&>li+li]:mt-1.5">
+        <li>Each post is drawn by this site as a card, from the archive’s text. Cards are not embeds from X and load nothing from X.</li>
+        <li>Times are the real posting times, in UTC. Each card’s time links to that post’s own page here.</li>
+        <li>Likes and reposts appear only when the archive recorded them. Nothing is estimated.</li>
+        <li>Posts that X no longer serves are marked “No longer on X”, with a link to look for them on the Wayback Machine. The rest link to the original on X.</li>
+        <li>No images, video or other media from posts are reproduced. Posts that were only media are left out.</li>
+        <li>Reposts of other accounts are left out.</li>
+        <li>Posts appear as written. The site adds no commentary on individual posts.</li>
+        <li>Topics are assigned automatically by keyword and can be wrong.</li>
+      </ul>
+
+      <h2 class="mt-10 mb-3 text-[13px] leading-[1.4] font-normal tracking-[0.04em] text-meta uppercase">Where the data comes from</h2>
+      <p class="mb-4">Posts come from a public compiled archive, <a href="https://github.com/gergogyulai/yetweets">yetweets</a>, which was assembled from Internet Archive snapshots and <a href="https://polititweet.org/">PolitiTweet</a>. Nothing is scraped live. <span id="facts"></span></p>
+      <p class="mb-4">Many of the original posts have since been deleted from X or are no longer served there, so most cards here say “No longer on X” and point to the Wayback Machine instead, which may or may not have a copy.</p>
+
+      <h2 class="mt-10 mb-3 text-[13px] leading-[1.4] font-normal tracking-[0.04em] text-meta uppercase">Rights and removal</h2>
+      <p class="mb-4">Post text belongs to its author. It is reproduced here for archival and commentary purposes, with a link to the original wherever X still serves it. If you hold rights to anything here and want it removed, email <a href="mailto:avishkarkakde2004@gmail.com">avishkarkakde2004@gmail.com</a>.</p>
+
+      <h2 class="mt-10 mb-3 text-[13px] leading-[1.4] font-normal tracking-[0.04em] text-meta uppercase">Accessibility</h2>
+      <p class="mb-4">The site uses semantic HTML and works with a keyboard: Tab moves between controls, <kbd>/</kbd> jumps to the search box on the search page, arrow keys step through chart bars, and <kbd>Escape</kbd> closes a chart tooltip. Both themes meet WCAG AA contrast, animation is turned off when your system asks for reduced motion, and every chart has a text or table version.</p>
+    </div>
+  </template>
+
+
+  <footer class="mt-12 border-t border-rule-soft pt-4 pb-6 text-[11px] leading-[1.6] tracking-[0.04em] text-faint">
+    <nav class="mb-2.5 flex flex-wrap gap-x-[18px] gap-y-1 text-[13px] tracking-normal" aria-label="Main">
+      <a class="py-1 text-text no-underline hover:text-ink hover:underline hover:decoration-underline-hover aria-[current=page]:text-ink" href="#/" data-route="search">search</a>
+      <a class="py-1 text-text no-underline hover:text-ink hover:underline hover:decoration-underline-hover aria-[current=page]:text-ink" href="#/timeline" data-route="timeline">timeline</a>
+      <a class="py-1 text-text no-underline hover:text-ink hover:underline hover:decoration-underline-hover aria-[current=page]:text-ink" href="#/stats" data-route="stats">stats</a>
+      <a class="py-1 text-text no-underline hover:text-ink hover:underline hover:decoration-underline-hover aria-[current=page]:text-ink" href="#/random" data-route="random">random</a>
+      <a class="py-1 text-text no-underline hover:text-ink hover:underline hover:decoration-underline-hover aria-[current=page]:text-ink" href="#/about" data-route="about">about</a>
+      <button class="cursor-pointer py-1 text-text hover:text-ink hover:underline hover:decoration-underline-hover" type="button" data-theme-toggle>dark mode</button>
+    </nav>
+    <p class="m-0 max-w-[46rem]">Unofficial fan project. Not affiliated with or endorsed by Kanye West or X. Post text is reproduced for archival and commentary purposes; no images or media are copied.</p>
+  </footer>
+</body>
+</html>

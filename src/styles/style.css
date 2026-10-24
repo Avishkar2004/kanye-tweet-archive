@@ -1,0 +1,206 @@
+/* Tweet Log — shared styles. Vite runs this file through Tailwind CSS v4 (@tailwindcss/vite).
+   Every element is styled with utilities in the markup; this file holds only tokens and base rules.
+   The look follows yecombinator.com: a quiet white page, one search box, warm grey text and dark post cards.
+   Light is the default; [data-theme="dark"] on <html> swaps the page tokens. Post cards are dark in both. */
+
+/* Class names are read from the pages and scripts only, not from the post text in public/data. */
+@import "tailwindcss" source(none);
+@source "../../*.html";
+@source "../lib";
+@source "../pages";
+
+/* dark: follows the site's own theme switch, not the OS setting. */
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+/* Inter (SIL Open Font License, see ../fonts/OFL.txt), shrunk to match the widths of the Helvetica-style
+   face the reference site uses. */
+@font-face {
+  font-family: "Inter TL";
+  src: url("../fonts/inter-latin-400-normal.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  size-adjust: 92.93%;
+}
+@font-face {
+  font-family: "Inter TL";
+  src: url("../fonts/inter-latin-500-normal.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+  size-adjust: 92.93%;
+}
+@font-face {
+  font-family: "Inter TL";
+  src: url("../fonts/inter-latin-700-normal.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  size-adjust: 92.93%;
+}
+
+/* ---------- Tokens ---------- */
+
+@theme {
+  --font-sans: "Inter TL", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  /* Post cards use the system face, like social-media cards do. */
+  --font-card: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace;
+
+  --text-caption: 13px;
+  --text-caption--line-height: 1.4;
+  --text-micro: 11px;
+  --text-micro--line-height: 1.4;
+  --text-micro--letter-spacing: 0.04em;
+
+  --ease-snap: cubic-bezier(0.23, 1, 0.32, 1);
+  --animate-result-in: result-in 180ms ease-out both;
+
+  @keyframes result-in {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: none; }
+  }
+}
+
+/* Utilities for the site tokens: bg-page, text-ink, text-meta, border-line, border-rule, bg-card, text-card-dim, ...
+   inline makes each utility read the token itself, so the dark theme switches them too. */
+@theme inline {
+  --color-page: var(--page);
+  --color-ink: var(--ink);
+  --color-text: var(--text);
+  --color-meta: var(--meta);
+  --color-faint: var(--faint);
+  --color-line: var(--line);
+  --color-rule: var(--rule);
+  --color-rule-soft: var(--rule-soft);
+  --color-underline: var(--underline);
+  --color-underline-hover: var(--underline-hover);
+  --color-wash: var(--wash);
+  --color-placeholder: var(--placeholder);
+  --color-focus: var(--focus);
+  --color-viz: var(--viz);
+  --color-viz-hover: var(--viz-hover);
+  --color-card: var(--card);
+  --color-card-hover: var(--card-hover);
+  --color-card-border: var(--card-border);
+  --color-card-text: var(--card-text);
+  --color-card-dim: var(--card-dim);
+  --color-card-link: var(--card-link);
+  --color-card-red: var(--card-red);
+  --color-card-mark: var(--card-mark);
+  --container-sub: 760px;
+  --container-card: 550px;
+}
+
+@layer base {
+  /* Every text colour clears WCAG AA (4.5:1) on its page colour; the reference site's greys are lighter
+     than that, so these are the same warm grey, a few steps darker. */
+  :root {
+    color-scheme: light;
+    --page: #ffffff;
+    --ink: #282624;
+    --text: #5e5853;
+    --meta: #6b6560;
+    --faint: #756f6a;
+    --line: #000000;
+    --rule: #dddddd;
+    --rule-soft: rgb(98 92 88 / 0.18);
+    --underline: rgb(98 92 88 / 0.35);
+    --underline-hover: rgb(40 38 36 / 0.6);
+    --wash: rgb(40 38 36 / 0.05);
+    --placeholder: #6f6f6f;
+    --focus: #000000;
+    --viz: #625c58;
+    --viz-hover: #282624;
+
+    --card: #15202b;
+    --card-hover: #1e2732;
+    --card-border: #425364;
+    --card-text: #f7f9f9;
+    --card-dim: #8b98a5;
+    --card-link: #6bc9fb;
+    --card-red: #f91880;
+    --card-mark: rgb(255 212 0 / 0.3);
+  }
+
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --page: #0f0f0e;
+    --ink: #f2efec;
+    --text: #c9c3be;
+    --meta: #aaa49f;
+    --faint: #9a948f;
+    --line: #e8e4e0;
+    --rule: #2a2a28;
+    --rule-soft: rgb(201 195 190 / 0.15);
+    --underline: rgb(201 195 190 / 0.35);
+    --underline-hover: rgb(242 239 236 / 0.7);
+    --wash: rgb(255 255 255 / 0.06);
+    --placeholder: #9a948f;
+    --focus: #ffffff;
+    --viz: #948e89;
+    --viz-hover: #f2efec;
+    --card-border: #4f6378;
+  }
+
+  html { -webkit-text-size-adjust: 100%; }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding-inline: max(16px, 3.5%);
+    background: var(--page);
+    color: var(--text);
+    font: 400 16px/1.8 var(--font-sans);
+  }
+
+  main { flex: 1; }
+
+  a {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-color: var(--underline);
+    text-underline-offset: 3px;
+    transition: color 120ms ease, text-decoration-color 120ms ease;
+  }
+  a:hover {
+    color: var(--ink);
+    text-decoration-color: var(--underline-hover);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 2px;
+  }
+
+  ::placeholder { color: var(--placeholder); opacity: 1; }
+
+  input[type="search"]::-webkit-search-cancel-button,
+  input[type="search"]::-webkit-search-decoration { appearance: none; }
+
+  code, kbd {
+    font-family: var(--font-mono);
+    font-size: 0.875em;
+    padding: 0.05em 0.35em;
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+  }
+
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th, td { padding: 6px 10px; border-bottom: 1px solid var(--rule-soft); text-align: left; }
+  th { color: var(--meta); font-size: 11px; font-weight: 400; letter-spacing: 0.04em; text-transform: uppercase; }
+  .num { text-align: right; font-variant-numeric: tabular-nums; }
+
+  [hidden] { display: none !important; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
